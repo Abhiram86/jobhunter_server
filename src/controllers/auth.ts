@@ -19,7 +19,7 @@ export const register = async (req: Request, res: Response) => {
     res.cookie("token", generateToken(String(newUser._id), newUser.role), {
       httpOnly: false,
       secure: true,
-      maxAge: 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
       sameSite: "none",
       path: "/",
     });
@@ -84,7 +84,7 @@ export const login = async (req: Request, res: Response) => {
     res.cookie("token", generateToken(String(user._id), role), {
       httpOnly: false,
       secure: true,
-      maxAge: 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
       sameSite: "none",
       path: "/",
     });
