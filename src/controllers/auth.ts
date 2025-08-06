@@ -85,7 +85,8 @@ export const login = async (req: Request, res: Response) => {
       httpOnly: false,
       secure: true,
       maxAge: 60 * 60 * 1000,
-      sameSite: "lax",
+      sameSite: "none",
+      path: "/",
     });
     const userObject = user.toObject();
     delete userObject.password;
