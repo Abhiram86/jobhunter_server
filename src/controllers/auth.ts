@@ -18,8 +18,9 @@ export const register = async (req: Request, res: Response) => {
     });
     res.cookie("token", generateToken(String(newUser._id), newUser.role), {
       httpOnly: false,
-      secure: false,
-      maxAge: 5 * 60 * 1000,
+      secure: true,
+      maxAge: 60 * 60 * 1000,
+      sameSite: "lax",
     });
     const userObject = newUser.toObject();
     if (userObject.role === "freelancer") {
@@ -81,8 +82,9 @@ export const login = async (req: Request, res: Response) => {
     }
     res.cookie("token", generateToken(String(user._id), role), {
       httpOnly: false,
-      secure: false,
+      secure: true,
       maxAge: 60 * 60 * 1000,
+      sameSite: "lax",
     });
     const userObject = user.toObject();
     delete userObject.password;
