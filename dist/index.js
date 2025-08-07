@@ -18,10 +18,12 @@ const app = (0, express_1.default)();
 const httpServer = http_1.default.createServer(app);
 const io = new socket_io_1.Server(httpServer);
 (0, db_1.connectDB)();
+app.set("trust proxy", 1);
 app.use((0, cors_1.default)({
     origin: process.env.FRONTEND_URL,
     credentials: true,
 }));
+app.options("*", (0, cors_1.default)());
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 io.on("connection", (socket) => {

@@ -17,12 +17,15 @@ const io = new Server(httpServer);
 
 connectDB();
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
+app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
 

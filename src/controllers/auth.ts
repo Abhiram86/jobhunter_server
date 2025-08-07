@@ -24,7 +24,6 @@ export const register = async (req: Request, res: Response) => {
       process.env.VERCEL_AUTOMATION_BYPASS_SECRET
     );
     res.set("x-vercel-set-bypass-cookie", "samesitenone");
-
     res.cookie("token", generateToken(String(newUser._id), newUser.role), {
       httpOnly: false,
       path: "/",
