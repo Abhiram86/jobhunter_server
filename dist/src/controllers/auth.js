@@ -17,6 +17,8 @@ const User_1 = __importDefault(require("../models/User"));
 const Role_1 = require("../models/Role");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jwt_1 = require("../utils/jwt");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newUserData = req.body;
     try {
@@ -26,12 +28,9 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const hashedPassword = yield bcrypt_1.default.hash(newUserData.password, 10);
         const newUser = yield User_1.default.create(Object.assign(Object.assign({}, newUserData), { password: hashedPassword }));
-        res.cookie("token", (0, jwt_1.generateToken)(String(newUser._id), newUser.role), {
-            httpOnly: false,
-            secure: true,
-            maxAge: 60 * 60 * 1000,
-            sameSite: "lax",
-        });
+        res.set("x-vercel-protection-bypass", process.env.VERCEL_AUTOMATION_BYPASS_SECRET);
+        res.set("x-vercel-set-bypass-cookie", "samesitenone");
+        res.setHeader("Set-Cookie", `token=${(0, jwt_1.generateToken)(String(newUser._id), newUser.role)}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`);
         const userObject = newUser.toObject();
         if (userObject.role === "freelancer") {
             yield createFreelancer(String(userObject._id));
@@ -92,12 +91,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!isPasswordValid) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
-        res.cookie("token", (0, jwt_1.generateToken)(String(user._id), role), {
-            httpOnly: false,
-            secure: true,
-            maxAge: 60 * 60 * 1000,
-            sameSite: "lax",
-        });
+        res.set("x-vercel-protection-bypass", process.env.VERCEL_AUTOMATION_BYPASS_SECRET);
+        res.set("x-vercel-set-bypass-cookie", "samesitenone");
+        res.setHeader("Set-Cookie", `token=${(0, jwt_1.generateToken)(String(user._id), role)}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`);
         const userObject = user.toObject();
         delete userObject.password;
         userObject.role = role;
