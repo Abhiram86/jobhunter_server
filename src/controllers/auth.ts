@@ -19,7 +19,12 @@ export const register = async (req: Request, res: Response) => {
       ...newUserData,
       password: hashedPassword,
     });
-    res.setHeader("x-vercel-set-bypass-cookie", "samesitenone");
+    res.set(
+      "x-vercel-protection-bypass",
+      process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+    );
+    res.set("x-vercel-set-bypass-cookie", "samesitenone");
+
     res.setHeader(
       "Set-Cookie",
       `token=${generateToken(
@@ -85,7 +90,11 @@ export const login = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    res.setHeader("x-vercel-set-bypass-cookie", "samesitenone");
+    res.set(
+      "x-vercel-protection-bypass",
+      process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+    );
+    res.set("x-vercel-set-bypass-cookie", "samesitenone");
     res.setHeader(
       "Set-Cookie",
       `token=${generateToken(
