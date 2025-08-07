@@ -25,13 +25,13 @@ export const register = async (req: Request, res: Response) => {
     );
     res.set("x-vercel-set-bypass-cookie", "samesitenone");
 
-    res.setHeader(
-      "Set-Cookie",
-      `token=${generateToken(
-        String(newUser._id),
-        newUser.role
-      )}; Path=/; Secure; SameSite=None; Max-Age=86400`
-    );
+    res.cookie("token", generateToken(String(newUser._id), newUser.role), {
+      httpOnly: false,
+      path: "/",
+      secure: true,
+      sameSite: "none",
+      maxAge: 86400,
+    });
 
     const userObject = newUser.toObject();
     if (userObject.role === "freelancer") {
@@ -96,13 +96,13 @@ export const login = async (req: Request, res: Response) => {
       process.env.VERCEL_AUTOMATION_BYPASS_SECRET
     );
     res.set("x-vercel-set-bypass-cookie", "samesitenone");
-    res.setHeader(
-      "Set-Cookie",
-      `token=${generateToken(
-        String(user._id),
-        role
-      )}; Path=/; Secure; SameSite=None; Max-Age=86400`
-    );
+    res.cookie("token", generateToken(String(user._id), user.role), {
+      httpOnly: false,
+      path: "/",
+      secure: true,
+      sameSite: "none",
+      maxAge: 86400,
+    });
 
     const userObject = user.toObject();
     delete userObject.password;
