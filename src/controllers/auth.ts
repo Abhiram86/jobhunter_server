@@ -30,8 +30,9 @@ export const register = async (req: Request, res: Response) => {
       `token=${generateToken(
         String(newUser._id),
         newUser.role
-      )}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`
+      )}; Path=/; Secure; SameSite=None; Max-Age=86400`
     );
+
     const userObject = newUser.toObject();
     if (userObject.role === "freelancer") {
       await createFreelancer(String(userObject._id));
@@ -100,8 +101,9 @@ export const login = async (req: Request, res: Response) => {
       `token=${generateToken(
         String(user._id),
         role
-      )}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`
+      )}; Path=/; Secure; SameSite=None; Max-Age=86400`
     );
+
     const userObject = user.toObject();
     delete userObject.password;
     userObject.role = role;

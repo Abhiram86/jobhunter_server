@@ -30,7 +30,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const newUser = yield User_1.default.create(Object.assign(Object.assign({}, newUserData), { password: hashedPassword }));
         res.set("x-vercel-protection-bypass", process.env.VERCEL_AUTOMATION_BYPASS_SECRET);
         res.set("x-vercel-set-bypass-cookie", "samesitenone");
-        res.setHeader("Set-Cookie", `token=${(0, jwt_1.generateToken)(String(newUser._id), newUser.role)}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`);
+        res.setHeader("Set-Cookie", `token=${(0, jwt_1.generateToken)(String(newUser._id), newUser.role)}; Path=/; Secure; SameSite=None; Max-Age=86400`);
         const userObject = newUser.toObject();
         if (userObject.role === "freelancer") {
             yield createFreelancer(String(userObject._id));
@@ -93,7 +93,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         res.set("x-vercel-protection-bypass", process.env.VERCEL_AUTOMATION_BYPASS_SECRET);
         res.set("x-vercel-set-bypass-cookie", "samesitenone");
-        res.setHeader("Set-Cookie", `token=${(0, jwt_1.generateToken)(String(user._id), role)}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`);
+        res.setHeader("Set-Cookie", `token=${(0, jwt_1.generateToken)(String(user._id), role)}; Path=/; Secure; SameSite=None; Max-Age=86400`);
         const userObject = user.toObject();
         delete userObject.password;
         userObject.role = role;
