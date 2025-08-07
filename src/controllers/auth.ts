@@ -3,6 +3,9 @@ import User, { UserType } from "../models/User";
 import { Freelancer, Client } from "../models/Role";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const register = async (req: Request, res: Response) => {
   const newUserData: Omit<UserType, "createdAt" | "updatedAt"> = req.body;
@@ -18,9 +21,10 @@ export const register = async (req: Request, res: Response) => {
     });
     res.cookie("token", generateToken(String(newUser._id), newUser.role), {
       httpOnly: false,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: "none",
+      domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
       path: "/",
     });
     const userObject = newUser.toObject();
@@ -83,9 +87,10 @@ export const login = async (req: Request, res: Response) => {
     }
     res.cookie("token", generateToken(String(user._id), role), {
       httpOnly: false,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: "none",
+      domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
       path: "/",
     });
     const userObject = user.toObject();
