@@ -34,6 +34,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             httpOnly: false,
             path: "/",
             secure: true,
+            domain: ".jobhunter-server.vercel.app",
             sameSite: "none",
             maxAge: 86400,
         });
@@ -103,6 +104,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             httpOnly: false,
             path: "/",
             secure: true,
+            domain: ".jobhunter-server.vercel.app",
             sameSite: "none",
             maxAge: 86400,
         });

@@ -29,6 +29,7 @@ export const register = async (req: Request, res: Response) => {
       httpOnly: false,
       path: "/",
       secure: true,
+      domain: ".jobhunter-server.vercel.app",
       sameSite: "none",
       maxAge: 86400,
     });
@@ -100,6 +101,7 @@ export const login = async (req: Request, res: Response) => {
       httpOnly: false,
       path: "/",
       secure: true,
+      domain: ".jobhunter-server.vercel.app",
       sameSite: "none",
       maxAge: 86400,
     });
