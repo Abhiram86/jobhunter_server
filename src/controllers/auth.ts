@@ -19,14 +19,13 @@ export const register = async (req: Request, res: Response) => {
       ...newUserData,
       password: hashedPassword,
     });
-    res.cookie("token", generateToken(String(newUser._id), newUser.role), {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "none",
-      domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
-      path: "/",
-    });
+    res.setHeader(
+      "Set-Cookie",
+      `token=${generateToken(
+        String(newUser._id),
+        newUser.role
+      )}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`
+    );
     const userObject = newUser.toObject();
     if (userObject.role === "freelancer") {
       await createFreelancer(String(userObject._id));
@@ -85,14 +84,13 @@ export const login = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    res.cookie("token", generateToken(String(user._id), role), {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "none",
-      domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
-      path: "/",
-    });
+    res.setHeader(
+      "Set-Cookie",
+      `token=${generateToken(
+        String(user._id),
+        role
+      )}; Path=/; Secure; SameSite=None; Max-Age=86400; Domain=.jobhunter-server.vercel.app`
+    );
     const userObject = user.toObject();
     delete userObject.password;
     userObject.role = role;
