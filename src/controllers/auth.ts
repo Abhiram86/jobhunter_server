@@ -29,9 +29,8 @@ export const register = async (req: Request, res: Response) => {
       httpOnly: false,
       path: "/",
       secure: true,
-      domain: ".jobhunter-server.vercel.app",
       sameSite: "none",
-      maxAge: 86400,
+      maxAge: 86400000,
     });
 
     const userObject = newUser.toObject();
@@ -101,9 +100,8 @@ export const login = async (req: Request, res: Response) => {
       httpOnly: false,
       path: "/",
       secure: true,
-      domain: ".jobhunter-server.vercel.app",
       sameSite: "none",
-      maxAge: 86400,
+      maxAge: 86400000,
     });
 
     const userObject = user.toObject();

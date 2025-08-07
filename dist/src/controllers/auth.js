@@ -34,9 +34,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             httpOnly: false,
             path: "/",
             secure: true,
-            domain: ".jobhunter-server.vercel.app",
             sameSite: "none",
-            maxAge: 86400,
+            maxAge: 86400000,
         });
         const userObject = newUser.toObject();
         if (userObject.role === "freelancer") {
@@ -104,9 +103,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             httpOnly: false,
             path: "/",
             secure: true,
-            domain: ".jobhunter-server.vercel.app",
             sameSite: "none",
-            maxAge: 86400,
+            maxAge: 86400000,
         });
         const userObject = user.toObject();
         delete userObject.password;
